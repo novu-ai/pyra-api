@@ -1,10 +1,9 @@
-// =============================
 import 'dotenv/config';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
-import { computeMetrics, thresholds, makeExecutiveSummary, MetricResult } from './metrics';
+import { computeMetrics, thresholds, makeExecutiveSummary, type MetricResult, type RawValues } from './metrics';
 import { getSupabase, persistAnalysis } from './supabase';
 import { aiInterpretation } from './llm';
 
@@ -38,7 +37,8 @@ export type ExtractionPayload = z.infer<typeof ExtractionSchema>;
 
 app.post('/v1/analyze', zValidator('json', ExtractionSchema), async (c) => {
   const body = c.req.valid('json');
-  const metrics = computeMetrics(body.values);
+  // 👈 Cast explícito para satisfacer a TS
+  const metrics = computeMetrics(body.values as RawValues);
   const executive = makeExecutiveSummary(metrics);
 
   // Optional AI enhancement
@@ -65,7 +65,8 @@ app.post('/v1/analyze', zValidator('json', ExtractionSchema), async (c) => {
 // Calculate metrics without persistence/AI — handy for local testing
 app.post('/v1/metrics', zValidator('json', ExtractionSchema.pick({ values: true })), (c) => {
   const { values } = c.req.valid('json');
-  const metrics = computeMetrics(values);
+  // 👈 Cast explícito aquí también
+  const metrics = computeMetrics(values as RawValues);
   return c.json({ metrics, thresholds });
 });
 
