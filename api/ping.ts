@@ -1,4 +1,4 @@
-// api/ping.ts
+\// api/ping.ts
 export const runtime = 'edge';
 
 export default async function handler() {
