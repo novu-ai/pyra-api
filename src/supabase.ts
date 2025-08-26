@@ -1,5 +1,5 @@
-// =============================
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+// src/supabase.ts
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 export function getSupabase(): SupabaseClient | null {
   const url = process.env.SUPABASE_URL;

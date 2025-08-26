@@ -39,12 +39,7 @@ export type RawValues = {
   pasivoTotal: number;
 };
 
-function statusByBands(
-  value: number | null,
-  red: number,
-  yellow: number,
-  direction: 'high-good' | 'low-good' = 'high-good'
-): MetricStatus {
+function statusByBands(value: number | null, red: number, yellow: number, direction: 'high-good' | 'low-good' = 'high-good'): MetricStatus {
   if (value === null || Number.isNaN(value)) return 'red';
   if (direction === 'high-good') {
     if (value < red) return 'red';
@@ -71,10 +66,9 @@ export function computeMetrics(v: RawValues): Record<string, MetricResult> {
   const margenBruto = safeDiv(v.ventas - v.costoVentas, v.ventas);
   const margenNeto = safeDiv(v.utilidadNeta, v.ventas);
   const endeudamiento = safeDiv(v.pasivoTotal, v.activoTotal);
-  const coberturaIntereses =
-    v.utilidadOperativa !== undefined && v.gastosFinancieros !== undefined
-      ? safeDiv(v.utilidadOperativa, v.gastosFinancieros)
-      : null;
+  const coberturaIntereses = v.utilidadOperativa !== undefined && v.gastosFinancieros !== undefined
+    ? safeDiv(v.utilidadOperativa, v.gastosFinancieros)
+    : null;
 
   const rotCartera = v.cuentasPorCobrar && v.cuentasPorCobrar > 0 ? safeDiv(v.ventas, v.cuentasPorCobrar) : null;
   const rotInventario = v.inventario && v.inventario > 0 ? safeDiv(v.costoVentas, v.inventario) : null;
@@ -174,7 +168,6 @@ export function makeExecutiveSummary(metrics: Record<string, MetricResult>) {
   const reds = Object.values(metrics).filter((m) => m.status === 'red');
   const yellows = Object.values(metrics).filter((m) => m.status === 'yellow');
   const greens = Object.values(metrics).filter((m) => m.status === 'green');
-
   const headline = reds.length
     ? '⚠️ Riesgos críticos detectados'
     : yellows.length
