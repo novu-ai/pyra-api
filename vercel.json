@@ -1,7 +1,0 @@
-{
-  "version": 2,
-  "framework": "hono",
-  "functions": {
-    "api/ping.ts": { "runtime": "edge" }
-  }
-}
