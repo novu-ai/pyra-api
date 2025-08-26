@@ -1,8 +1,8 @@
 // api/ping.ts
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
-export default function handler(_req: Request): Response {
+export default async function handler() {
   return new Response(JSON.stringify({ ok: true }), {
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json' }
   });
 }
