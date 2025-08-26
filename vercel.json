@@ -1,0 +1,8 @@
+{
+  "framework": "hono",
+  "functions": {
+    "api/**/*.{ts,js}": {
+      "runtime": "edge"
+    }
+  }
+}
