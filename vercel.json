@@ -1,0 +1,6 @@
+{
+  "framework": "hono",
+  "functions": {
+    "api/ping.ts": { "runtime": "edge" }
+  }
+}
